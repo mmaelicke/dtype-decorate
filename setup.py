@@ -9,7 +9,7 @@ with open('requirements-test.txt') as fs:
     TEST_REQUIREMENTS = fs.read().strip().split('\n')
 
 
-with open('VERSION.txt') as fs:
+with open('VERSION') as fs:
     VERSION = fs.read().strip()
 
 with open('classifiers.txt') as fs:
