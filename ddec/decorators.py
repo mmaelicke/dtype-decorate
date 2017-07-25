@@ -9,6 +9,9 @@ def accept(**types):
     """
     Decorator used to define accepted argument types for generic functions.
 
+    The basic structure of this function was heavily inspired / extended on the basis of:
+    https://stackoverflow.com/questions/15299878/how-to-use-python-decorators-to-check-function-arguments
+
     Usage
     -----
 
@@ -80,9 +83,12 @@ def enforce(**types):
     Decorator used to define enforcing of argument type casts for the toolbox functions.
 
     In case a cast on one of the arguments raises a :py:class: `ValueError`, the cast will be ignored.
-    Therefore it might make sense to combine a enforce decorator with a :py:func: `hydrobox.utils.decorators.accept`
+    Therefore it might make sense to combine a enforce decorator with a :py:func: `ddec.accept`
     decorator in order to accept only the enforced type. In this case the
-    :py:func: `hydrobox.utils.decorators.accept` decorator raises a :py:class: `ValueError`.
+    :py:func: `ddec.accept` decorator raises a :py:class: `ValueError`.
+
+    The basic structure of this function was heavily inspired / extended on the basis of:
+    https://stackoverflow.com/questions/15299878/how-to-use-python-decorators-to-check-function-arguments
 
     Usage
     -----

@@ -6,6 +6,9 @@ constrain the attributes of the decorated function to specific data types. This 
 especially when they are written for a specific context. This is usually the case for scientific applications,
 where functionality is often more important than clean code.
 
+The basic structure of this module was heavily inspired / extended on the basis of:
+https://stackoverflow.com/questions/15299878/how-to-use-python-decorators-to-check-function-arguments
+
 
 Installation
 ~~~~~~~~~~~~
@@ -37,7 +40,8 @@ Define a function that does only accept an `int` and a `float`.
 
 .. code-block:: python
 
-  @accept(a=int, b=float)
+  import ddec
+  @ddec.accept(a=int, b=float)
   def f(a, b):
     pass
 
@@ -46,7 +50,7 @@ ignored.
 
 .. code-block:: python
 
-  @accept(a=(int, float))
+  @ddec.accept(a=(int, float))
   def f(a, be_any_type)
     pass
 
@@ -58,7 +62,7 @@ as a string.
 
 .. code-block:: python
 
-  @accept(a='None', b=('None', 'callable'))
+  @ddec.accept(a='None', b=('None', 'callable'))
   def f(a, b):
     pass
 
