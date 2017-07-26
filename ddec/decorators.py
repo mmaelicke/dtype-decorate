@@ -50,22 +50,25 @@ def accept(**types):
                         continue
 
                 # check type
-                if argtype == 'callable' or (isinstance(argtype, (list, tuple)) and 'callable' in argtype):
+                if argval is None:
+                    if not (argtype == 'None' or (isinstance(argtype, (list, tuple)) and 'None' in argtype)):
+                        raise TypeError('%s(...): arg %s: is None, must be %s.' % (fname, argname, argtype))
+                    else:
+                        continue
+
+                elif argtype == 'callable' or (isinstance(argtype, (list, tuple)) and 'callable' in argtype):
                     if not callable(argval):
                         raise TypeError('%s(...): arg %s: type is %s, but shall be callable.' % (fname, argname, type(argval)))
                     else:
                         continue
 
-                elif argval is None:
-                    if not (argtype == 'None' or (isinstance(argtype, (list, tuple)) and 'None' in argtype)):
-                        raise TypeError('%s(...): arg %s: is None, must be %s.' %(fname, argname, argtype))
-                    else:
-                        continue
-
-                # check if there is a None in argtype
-                if isinstance(argtype, (tuple, list)) and 'None' in argtype:
+                # check if there is a None or  callable in argtype
+                if isinstance(argtype, (tuple, list)) and ('None' in argtype or 'callable' in argtype):
                     argtype = list(argtype)
-                    argtype.remove('None')
+                    if 'None' in argtype:
+                        argtype.remove('None')
+                    if 'callable' in argtype:
+                        argtype.remove('callable')
                     argtype = tuple(argtype)
 
                 if not isinstance(argval, argtype):
@@ -87,7 +90,7 @@ def enforce(**types):
     decorator in order to accept only the enforced type. In this case the
     :py:func: `ddec.accept` decorator raises a :py:class: `ValueError`.
 
-    The basic structure of this function was heavily inspired / extended on the basis of:
+    The basic structure of this functionsudo was heavily inspired / extended on the basis of:
     https://stackoverflow.com/questions/15299878/how-to-use-python-decorators-to-check-function-arguments
 
     Usage

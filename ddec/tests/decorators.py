@@ -10,8 +10,6 @@ class TestAcceptDecorator(unittest.TestCase):
     def test_all_native(self):
         """
         Test all native python functionality.
-
-        :return:
         """
         # define test f
         @accept(a=int, b=float, c=bool, d=tuple, e=list, g=dict)
@@ -33,8 +31,6 @@ class TestAcceptDecorator(unittest.TestCase):
     def test_fail_native(self):
         """
         Test if wrong type raises Type error.
-
-        :return:
         """
         # define test f
         @accept(a=int)
@@ -48,8 +44,6 @@ class TestAcceptDecorator(unittest.TestCase):
     def test_callable(self):
         """
         Test if a callable is handled correctly.
-
-        :return:
         """
         # define test
         func = lambda x: x
@@ -70,8 +64,6 @@ class TestAcceptDecorator(unittest.TestCase):
     def test_none_values(self):
         """
         Test if None values are handled correctly.
-
-        :return:
         """
         @accept(a='None', b=(int, 'None'))
         def f(a, b):
@@ -88,11 +80,30 @@ class TestAcceptDecorator(unittest.TestCase):
         with self.assertRaises(TypeError):
             f(5, 42.3)
 
+    def test_none_and_callable(self):
+        """
+        Test callable and None at the same time.
+        """
+        func = lambda x: x
+        @accept(a=('callable', 'None', int), b=int)
+        def f(a, b):
+            pass
+
+        # call it
+        try:
+            f(func, 5)
+            f(None, 5)
+        except TypeError:
+            self.fail('TypeError raised by accept decorator')
+
+        # test failure
+        with self.assertRaises(TypeError):
+            f(5, 5)
+
+
     def test_matplotlib_numpy(self):
         """
         Test if matplotlib Subplot and numpy ndarray are handled correctly.
-
-        :return:
         """
         @accept(a=np.ndarray, b=SubplotBase, c=(np.ndarray, SubplotBase))
         def f(a,b,c):
@@ -123,8 +134,6 @@ class TestEnforceDecorator(unittest.TestCase):
     def test_int(self):
         """
         Test the int type cast
-
-        :return:
         """
         @enforce(a=int, b=int)
         def f(a, b=5):
@@ -146,8 +155,6 @@ class TestEnforceDecorator(unittest.TestCase):
     def test_float(self):
         """
         Test the float type cast
-
-        :return:
         """
         @enforce(a=float, b=float)
         def f(a, b=5.5):
@@ -169,8 +176,6 @@ class TestEnforceDecorator(unittest.TestCase):
     def test_bool(self):
         """
         Test the bool type cast
-
-        :return:
         """
         @enforce(a=bool, b=bool)
         def f(a, b=True):
